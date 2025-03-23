@@ -49,11 +49,11 @@ jobs:
           cd build
           cmake --build .
 
-      # Шаг 7: Запускаем тесты
+      # Шаг 7: Запускаем тесты с подробным выводом
       - name: Run tests
         run: |
           cd build
-          ctest --output-on-failure
+          ctest --output-on-failure --verbose
 
       # Шаг 8: Запуск основного приложения (опционально)
       - name: Run main application
