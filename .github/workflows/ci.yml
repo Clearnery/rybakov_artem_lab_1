@@ -3,21 +3,19 @@ name: CI Pipeline
 on:
   push:
     branches:
-      - master  # Запускать при изменениях в ветке master
+      - main  # Запускать при изменениях в ветке main
   pull_request:
     branches:
-      - master  # Запускать при создании pull request в ветку master
+      - main  # Запускать при создании pull request в ветку main
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest  # Используем последнюю версию Ubuntu
 
     steps:
-      # Шаг 1: Клонируем репозиторий с подмодулями
+      # Шаг 1: Клонируем репозиторий
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          submodules: recursive  # Инициализировать и обновить подмодули
 
       # Шаг 2: Устанавливаем зависимости (CMake, компилятор и т.д.)
       - name: Install dependencies
@@ -25,37 +23,29 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y cmake g++
 
-      # Шаг 3: Выводим версии CMake и компилятора
-      - name: Print versions
-        run: |
-          cmake --version
-          g++ --version
-
-      # Шаг 4: Удаляем папку build, если она существует, и создаем новую
+      # Шаг 3: Создаем папку для сборки
       - name: Create build directory
-        run: |
-          rm -rf build
-          mkdir build
+        run: mkdir build
 
-      # Шаг 5: Переходим в папку сборки и запускаем CMake
+      # Шаг 4: Переходим в папку сборки и запускаем CMake
       - name: Configure project with CMake
         run: |
           cd build
           cmake ..
 
-      # Шаг 6: Собираем проект
+      # Шаг 5: Собираем проект
       - name: Build project
         run: |
           cd build
           cmake --build .
 
-      # Шаг 7: Запускаем тесты
+      # Шаг 6: Запускаем тесты
       - name: Run tests
         run: |
           cd build
           ctest --output-on-failure
 
-      # Шаг 8: Запуск основного приложения (опционально)
+      # Шаг 7: Запуск основного приложения (опционально)
       - name: Run main application
         run: |
           cd build
