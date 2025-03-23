@@ -13,9 +13,11 @@ jobs:
     runs-on: ubuntu-latest  # Используем последнюю версию Ubuntu
 
     steps:
-      # Шаг 1: Клонируем репозиторий
+      # Шаг 1: Клонируем репозиторий с подмодулями
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          submodules: recursive  # Инициализировать и обновить подмодули
 
       # Шаг 2: Устанавливаем зависимости (CMake, компилятор и т.д.)
       - name: Install dependencies
