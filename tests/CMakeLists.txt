@@ -17,8 +17,5 @@ add_executable(tests
 target_link_libraries(tests gtest_main)
 
 # Включаем тестирование через CTest
-include(CTest)
 enable_testing()
-
-# Регистрируем тесты в CTest
-add_test(NAME RunUnitTests COMMAND tests)
+add_test(NAME tests COMMAND tests)
