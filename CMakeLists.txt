@@ -1,24 +1,21 @@
-cmake_minimum_required(VERSION 3.14)
-project(LAB_2_1)
-
-# Устанавливаем стандарт C++
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# Включаем Google Test как подмодуль
-add_subdirectory(googletest)
+# Указываем, что это отдельный проект (опционально)
+project(LAB_2_1_Tests)
 
 # Подключаем заголовочные файлы
-include_directories(include)
+include_directories(${CMAKE_SOURCE_DIR}/include)
 
-# Собираем основное приложение
-add_executable(main_app
-    src/main.cpp
-    src/Circle.cpp
-    src/Rectangle.cpp
-    src/Cube.cpp
-    src/Sphere.cpp
+# Собираем тесты
+add_executable(tests
+    tests.cpp
+    ${CMAKE_SOURCE_DIR}/src/Circle.cpp
+    ${CMAKE_SOURCE_DIR}/src/Rectangle.cpp
+    ${CMAKE_SOURCE_DIR}/src/Cube.cpp
+    ${CMAKE_SOURCE_DIR}/src/Sphere.cpp
 )
 
-# Подключаем папку tests как подпроект
-add_subdirectory(tests)
+# Подключаем Google Test к тестам
+target_link_libraries(tests gtest_main)
+
+# Включаем тестирование через CTest
+enable_testing()
+add_test(NAME tests COMMAND tests)
